@@ -120,11 +120,11 @@ def game_loop(board):
 			break
 	
 def main():
-	board = []
-	init_board(board, "-") # modify init_board() function to 
+	game_board = []
+	init_board(game_board, "-") # modify init_board() function to 
 	print ("Welcome to Tic-Tack-Toes")
-	print_board(board)
-	game_loop(board)
+	print_board(game_board)
+	game_loop(game_board)
 	print ("Fuck You xD")
 			
 # execution actually begins here
