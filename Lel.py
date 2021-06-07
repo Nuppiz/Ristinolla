@@ -1,6 +1,8 @@
 from random import randint
 
-def init_board(char)
+board = []
+
+def init_board(char):
 	for square in range(5):
 		board.append([char] * 5)
 
@@ -39,13 +41,6 @@ def player_input(board):
 		else:
 			board[player_row][player_col] = "X"
 			break
-		
-	#if (enter_row >= 0 and enter_row <= 4) and (enter_col >= 0 and enter_col <= 4) and (board[enter_row][enter_col] == "-"):
-		#board[enter_row][enter_col] = "X"
-	#elif (enter_row < 0 or enter_row > 4) or (enter_col < 0 or enter_col > 4):
-		#print ("Out of range!")
-	#else:
-		#print ("Already in use!")
 		
 def ai_input(board):
 	attempts = 0
@@ -106,7 +101,7 @@ def draw_check():
 	else:
 		return 0
 
-def gameplay_loop(board):
+def game_loop(board):
 	while True:
 		print ("Your turn")
 		player_input(board)
@@ -131,7 +126,7 @@ def main():
 	init_board(board) # modify init_board() function to 
 	print ("Welcome to Tic-Tack-Toes")
 	print_board(board)
-	game_loop()
+	game_loop(board)
 	print ("Fuck You xD")
 			
 # execution actually begins here
