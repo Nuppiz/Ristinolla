@@ -1,12 +1,12 @@
 from random import randint
 
-board = []
-for square in range(5):
-		board.append(["-"] * 5)
-def print_board(board_in):
+def init_board(char)
+	for square in range(5):
+		board.append([char] * 5)
+
+def print_board(board):
 	for row in board:
 		print (" ".join(row))
-print_board(board)
 
 def getMax(character):
 	max_rows = check_rows(board, character)
@@ -106,20 +106,33 @@ def draw_check():
 	else:
 		return 0
 
-while True:
-	print ("Your turn")
-	player_input(board)
+def gameplay_loop(board):
+	while True:
+		print ("Your turn")
+		player_input(board)
+		print_board(board)
+		if score_checker(board, 'X') == 1:
+			print ("You win!")
+			break
+		if draw_check() == 1:
+			break
+			
+		print ("AI's turn")
+		ai_input(board)
+		print_board(board)
+		if score_checker(board, 'O') == 1:
+			print ("You lose!")
+			break
+		if draw_check() == 1:
+			break
+	
+def main():
+	board = []
+	init_board(board) # modify init_board() function to 
+	print ("Welcome to Tic-Tack-Toes")
 	print_board(board)
-	if score_checker(board, 'X') == 1:
-		print ("You win!")
-		break
-	if draw_check() == 1:
-		break
-	print ("AI's turn")
-	ai_input(board)
-	print_board(board)
-	if score_checker(board, 'O') == 1:
-		print ("You lose!")
-		break
-	if draw_check() == 1:
-		break
+	game_loop()
+	print ("Fuck You xD")
+			
+# execution actually begins here
+main()
