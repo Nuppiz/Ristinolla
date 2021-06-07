@@ -1,8 +1,6 @@
 from random import randint
 
-board = []
-
-def init_board(char):
+def init_board(board, char):
 	for square in range(5):
 		board.append([char] * 5)
 
@@ -10,7 +8,7 @@ def print_board(board):
 	for row in board:
 		print (" ".join(row))
 
-def getMax(character):
+def getMax(board, character):
 	max_rows = check_rows(board, character)
 	max_cols = check_columns (board, character)
 	if max_rows > max_cols:
@@ -44,7 +42,7 @@ def player_input(board):
 		
 def ai_input(board):
 	attempts = 0
-	ai_max = getMax('O')
+	ai_max = getMax(board, 'O')
 	while True:
 		ai_y = randint(0, len(board) - 1)
 		ai_x = randint(0, len(board[0]) - 1)
@@ -53,7 +51,7 @@ def ai_input(board):
 		else:
 			board[ai_y][ai_x] = "O"
 			attempts += 1
-		if getMax('O') > ai_max or attempts >= 100:
+		if getMax(board, 'O') > ai_max or attempts >= 100:
 			break
 		else:
 			board[ai_y][ai_x] = "-"
@@ -94,7 +92,7 @@ def count_chars(char, board):
 		count += row.count(char)
 	return count
 	
-def draw_check():
+def draw_check(board):
 	if count_chars('-', board) == 0:
 		print ("Board full, it's a draw!")
 		return 1
@@ -109,7 +107,7 @@ def game_loop(board):
 		if score_checker(board, 'X') == 1:
 			print ("You win!")
 			break
-		if draw_check() == 1:
+		if draw_check(board) == 1:
 			break
 			
 		print ("AI's turn")
@@ -118,12 +116,12 @@ def game_loop(board):
 		if score_checker(board, 'O') == 1:
 			print ("You lose!")
 			break
-		if draw_check() == 1:
+		if draw_check(board) == 1:
 			break
 	
 def main():
 	board = []
-	init_board(board) # modify init_board() function to 
+	init_board(board, "-") # modify init_board() function to 
 	print ("Welcome to Tic-Tack-Toes")
 	print_board(board)
 	game_loop(board)
