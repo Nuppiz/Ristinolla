@@ -49,18 +49,21 @@ def player_input(board):
 			board[player_row][player_col] = "X"
 			break
 
-# rudimentary AI, takes a random cell, checks if it's in use and then tries to go for the currently longest straight
+# rudimentary AI
 def ai_input(board): 
 	attempts = 0
 	ai_max = getMax(board, 'O')
 	while True:
+		# randint to generate a random pair of coordinates
 		ai_y = randint(0, len(board) - 1)
 		ai_x = randint(0, len(board[0]) - 1)
+		#checks that the cell is empty, if not, try again with new coords
 		if board[ai_y][ai_x] != "-":
 			continue
 		else:
 			board[ai_y][ai_x] = "O"
 			attempts += 1
+		# AI functionality that prioritizes going for the longest straight rather than just a random cell, attempt limit to prevent an infinite loop
 		if getMax(board, 'O') > ai_max or attempts >= 100:
 			break
 		else:
@@ -134,7 +137,7 @@ def game_loop(board):
 		if draw_check(board) == 1:
 			break
 
-#game initialization function and exit text	
+# game initialization function and exit text	
 def main():
 	game_board = []
 	init_board(game_board, "-") # MODIFY init_board() function to change board size
