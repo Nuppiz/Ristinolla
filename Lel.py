@@ -186,7 +186,12 @@ def main():
 	print ("Welcome to Tic-Tack-Toes")
 	print_board(game_board)
 	game_loop(game_board)
-	print ("Fuck You xD")
+	print ("Game over man, game over!")
+	new_game = input("Enter Y to play again, any other key to quit")
+	if new_game == "Y" or "y":
+		main()
+	else:
+		quit()
 			
 # execution actually begins here
 main()
