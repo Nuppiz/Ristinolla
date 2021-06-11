@@ -1,12 +1,42 @@
 #import functionality for random integer
 from random import randint
 
-# creates a 25-cell board, MODIFY at some point so user can decide size
+# creates a board with custom width and length
 def init_board(board, char):
-	for square in range(5):
-		board.append([char] * 5)
+	min_value = 5
+	max_value = 20
+	
+	# take width
+	while True:
+		try:
+			board_width = int(input("Enter board width (" + str(min_value) + "-" + str(max_value) +"):"))
+		except ValueError:
+			print ("Please enter a number.")
+			continue
+		if not (board_width >= min_value and board_width <= max_value):
+			print ("Please enter a number between " + str(min_value) + " and " + str(max_value))
+			continue
+		else:
+			break
+		
+	# take height
+	while True:
+		try:
+			board_height = int(input("Enter board height (" + str(min_value) + "-" + str(max_value) +"):"))
+		except ValueError:
+			print ("Please enter a number.")
+			continue
+		if not (board_height >= min_value and board_height <= max_value):
+			print ("Please enter a number between " + str(min_value) + " and " + str(max_value))
+			continue
+		else:
+			break
+		
+	# create board
+	for row in range(board_height):
+		board.append([char] * (board_width))
 
-# splits the 25 cells into even rows
+# splits the cells into rows
 def print_board(board):
 	for row in board:
 		print (" ".join(row))
@@ -25,19 +55,19 @@ def player_input(board):
 	while True:
 		#try-excepts to make sure player enters a number and not some other character, MODIFY for board size
 		try:
-			player_row = int(input("Enter Row (1-5): "))-1
+			player_row = int(input("Enter Row: "))-1
 		except ValueError:
 			print ("Please enter a valid number.")
 			continue
 		
 		try:
-			player_col = int(input("Enter Column (1-5): "))-1
+			player_col = int(input("Enter Column: "))-1
 		except ValueError:		
 			print ("Please enter a valid number.")
 			continue
 		
 		#checks that player enters a number within the range of the board, MODIFY for board size
-		if not ((player_row >= 0 and player_row <= 4) and (player_col >= 0 and player_col <= 4)):
+		if not ((player_row >= 0 and player_row <= 20) and (player_col >= 0 and player_col <= 20)):
 			print ("Please enter a valid number (1-5).")
 			continue
 		#checks if the selected cell is already used up
@@ -140,7 +170,7 @@ def game_loop(board):
 # game initialization function and exit text	
 def main():
 	game_board = []
-	init_board(game_board, "-") # MODIFY init_board() function to change board size
+	init_board(game_board, "-")
 	print ("Welcome to Tic-Tack-Toes")
 	print_board(game_board)
 	game_loop(game_board)
