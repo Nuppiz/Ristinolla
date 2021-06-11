@@ -83,15 +83,13 @@ def player_input(board):
 			break
 	
 	# checks if the selected cell is already used up
-	while True:
-		if not board[player_row][player_col] == "-":
-			print ("Already in use!")
-			player_input(board)
+	if not board[player_row][player_col] == "-":
+		print ("Already in use!")
+		player_input(board)
 	
 	# if all conditions are met, cell is filled with an X
-		else:
-			board[player_row][player_col] = "X"
-			break
+	else:
+		board[player_row][player_col] = "X"
 
 # rudimentary AI
 def ai_input(board): 
