@@ -1,4 +1,4 @@
-#known issues: "Already in use!" loops forever (!), AI is... confused
+#known issues: AI is... confused
 
 # import functionality for random integer
 from random import randint
