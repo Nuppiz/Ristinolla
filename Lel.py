@@ -86,7 +86,7 @@ def player_input(board):
 	while True:
 		if not board[player_row][player_col] == "-":
 			print ("Already in use!")
-			continue
+			player_input(board)
 	
 	# if all conditions are met, cell is filled with an X
 		else:
