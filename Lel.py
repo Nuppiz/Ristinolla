@@ -1,4 +1,6 @@
-#import functionality for random integer
+#known issues: "Already in use!" loops forever (!), AI is... confused
+
+# import functionality for random integer
 from random import randint
 
 # creates a board with custom width and length
@@ -52,29 +54,41 @@ def getMax(board, character):
 
 # while-loop function for player's turn
 def player_input(board):
-	while True:
-		#try-excepts to make sure player enters a number and not some other character, MODIFY for board size
+# try-excepts to make sure player enters a number and not some other character
+	# column first
+	while True:	
 		try:
-			player_row = int(input("Enter Row: "))-1
+			player_col = int(input("Enter Column: "))-1
 		except ValueError:
 			print ("Please enter a valid number.")
 			continue
+		#checks that player enters a number within the range of the board
+		if not ((player_col >= 0 and player_col <= len(board[0])-1)):
+			print ("Please enter a valid number.")
+			continue
+		else:
+			break
 		
+	# then row
+	while True:	
 		try:
-			player_col = int(input("Enter Column: "))-1
+			player_row = int(input("Enter Row: "))-1
 		except ValueError:		
 			print ("Please enter a valid number.")
 			continue
-		
-		#checks that player enters a number within the range of the board, MODIFY for board size
-		if not ((player_row >= 0 and player_row <= 20) and (player_col >= 0 and player_col <= 20)):
-			print ("Please enter a valid number (1-5).")
+		if not ((player_row >= 0 and player_row <= len(board)-1)):
+			print ("Please enter a valid number.")
 			continue
-		#checks if the selected cell is already used up
-		elif board[player_row][player_col] != "-":
+		else:
+			break
+	
+	# checks if the selected cell is already used up
+	while True:
+		if not board[player_row][player_col] == "-":
 			print ("Already in use!")
 			continue
-		#if all conditions are met, cell is filled with an X
+	
+	# if all conditions are met, cell is filled with an X
 		else:
 			board[player_row][player_col] = "X"
 			break
@@ -87,7 +101,7 @@ def ai_input(board):
 		# randint to generate a random pair of coordinates
 		ai_y = randint(0, len(board) - 1)
 		ai_x = randint(0, len(board[0]) - 1)
-		#checks that the cell is empty, if not, try again with new coords
+		# checks that the cell is empty, if not, try again with new coords
 		if board[ai_y][ai_x] != "-":
 			continue
 		else:
@@ -99,12 +113,12 @@ def ai_input(board):
 		else:
 			board[ai_y][ai_x] = "-"
 
-# functions to check each row and column for consecutive characters (X or O), MODIFY for board size
+# functions to check each row and column for consecutive characters (X or O)
 def check_rows(board, character):
 	max_score = 0
-	for row in range(0,5):
+	for row in range(0,len(board)):
 		score = 0
-		for column in range(0,5):
+		for column in range(0,len(board[0])):
 			if board[row][column] == character:
 				score +=1
 				if score > max_score:
@@ -115,9 +129,9 @@ def check_rows(board, character):
 
 def check_columns(board, character):
 	max_score = 0
-	for column in range(0,5):
+	for column in range(0,len(board[0])):
 		score = 0
-		for row in range(0,5):
+		for row in range(0,len(board)):
 			if board[row][column] == character:
 				score +=1
 				if score > max_score:
@@ -126,9 +140,9 @@ def check_columns(board, character):
 				score = 0
 	return max_score
 
-# checks if either player has the required score, MODIFY for board size
+# checks if either player has the required score
 def score_checker(board, character):
-	if check_rows(board, character) == 4 or check_columns(board, character) == 4:
+	if check_rows(board, character) == len(board[0])-1 or check_columns(board, character) == len(board)-1:
 		return 1
 
 # helper function to count the amount of empty cells left on the board
