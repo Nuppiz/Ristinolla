@@ -63,7 +63,7 @@ def player_input(board):
 			print ("Please enter a valid number.")
 			continue
 		#checks that player enters a number within the range of the board
-		if not ((player_col >= 0 and player_col <= len(board[0])-1)):
+		if not ((player_col >= 0 and player_col < len(board[0]))):
 			print ("Please enter a valid number.")
 			continue
 		else:
@@ -76,7 +76,7 @@ def player_input(board):
 		except ValueError:		
 			print ("Please enter a valid number.")
 			continue
-		if not ((player_row >= 0 and player_row <= len(board)-1)):
+		if not ((player_row >= 0 and player_row < len(board))):
 			print ("Please enter a valid number.")
 			continue
 		else:
