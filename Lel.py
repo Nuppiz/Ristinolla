@@ -1,7 +1,25 @@
-#known issues: AI is... confused
+#known issues: AI is... confused, exit function doesn't work
 
 # import functionality for random integer
 from random import randint
+
+#import time for delay function
+import time
+
+# necessary checks for correct difficulty input
+def diff_check():
+	while True:
+		try:
+			diff_input = int(input("Enter AI difficulty (1-5):"))
+		except ValueError:
+			print ("Please enter a number.")
+			continue
+		if not (diff_input >= 1 and diff_input <= 5):
+			print ("Please enter a number between 1 and 5.")
+			continue
+		else:
+			return diff_input
+			break
 
 # creates a board with custom width and length
 def init_board(board, char):
@@ -92,7 +110,7 @@ def player_input(board):
 		board[player_row][player_col] = "X"
 
 # rudimentary AI
-def ai_input(board): 
+def ai_input(board, difficulty): 
 	attempts = 0
 	ai_max = getMax(board, 'O')
 	while True:
@@ -106,7 +124,7 @@ def ai_input(board):
 			board[ai_y][ai_x] = "O"
 			attempts += 1
 		# AI functionality that prioritizes going for the longest straight rather than just a random cell, attempt limit to prevent an infinite loop
-		if getMax(board, 'O') > ai_max or attempts >= 100:
+		if getMax(board, 'O') > ai_max or attempts >= (len(board[0]) * len(board) * difficulty):
 			break
 		else:
 			board[ai_y][ai_x] = "-"
@@ -159,7 +177,7 @@ def draw_check(board):
 		return 0
 
 # function loop to keep the game going, checks after each turn for score and possible draw situation
-def game_loop(board):
+def game_loop(board, difficulty):
 	while True:
 		print ("Your turn")
 		player_input(board)
@@ -170,8 +188,9 @@ def game_loop(board):
 		if draw_check(board) == 1:
 			break
 			
-		print ("AI's turn")
-		ai_input(board)
+		print ("AI's turn...")
+		time.sleep(2) # 2-second delay to make it seem like the AI is "thinking"
+		ai_input(board, difficulty)
 		print_board(board)
 		if score_checker(board, 'O') == 1:
 			print ("You lose!")
@@ -182,16 +201,17 @@ def game_loop(board):
 # game initialization function and exit text	
 def main():
 	game_board = []
-	init_board(game_board, "-")
 	print ("Welcome to Tic-Tack-Toes")
+	init_board(game_board, "-")
+	difficulty = diff_check() # defines difficulty variable which is sent to AI
 	print_board(game_board)
-	game_loop(game_board)
+	game_loop(game_board, difficulty)
 	print ("Game over man, game over!")
-	new_game = input("Enter Y to play again, any other key to quit")
+	new_game = input("Enter Y to play again, any other key to quit:")
 	if new_game == "Y" or "y":
 		main()
 	else:
-		quit()
+		exit()
 			
 # execution actually begins here
 main()
