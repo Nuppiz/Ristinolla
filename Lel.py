@@ -1,10 +1,10 @@
-#known issues: AI is... confused, exit function doesn't work
+#known issues: AI is... confused
 
 # import functionality for random integer
 from random import randint
 
-#import time for delay function
-import time
+# import time.sleep for AI "delay"
+from time import sleep
 
 # necessary checks for correct difficulty input
 def diff_check():
@@ -19,7 +19,6 @@ def diff_check():
 			continue
 		else:
 			return diff_input
-			break
 
 # creates a board with custom width and length
 def init_board(board, char):
@@ -55,6 +54,30 @@ def init_board(board, char):
 	# create board
 	for row in range(board_height):
 		board.append([char] * (board_width))
+		
+	# define min and max values for score
+	if board_width <= board_height:
+		min_points = board_width
+	else:
+		min_points = board_height
+	
+	if board_width >= board_height:
+		max_points = board_width
+	else:
+		max_points = board_height
+		
+	# take required score
+	while True:
+		try:
+			win_score = int(input("Enter required score to win (" + str(min_points) + "-" + str(max_points) +"):"))
+		except ValueError:
+			print ("Please enter a number.")
+			continue
+		if not (win_score >= min_points and win_score <= max_points):
+			print ("Please enter a number between " + str(min_points) + " and " + str(max_points))
+			continue
+		else:
+			return win_score
 
 # splits the cells into rows
 def print_board(board):
@@ -112,6 +135,7 @@ def player_input(board):
 # rudimentary AI
 def ai_input(board, difficulty): 
 	attempts = 0
+	max_attempts = len(board[0]) * len(board) * difficulty # determines max attempts by board size and difficulty
 	ai_max = getMax(board, 'O')
 	while True:
 		# randint to generate a random pair of coordinates
@@ -124,7 +148,7 @@ def ai_input(board, difficulty):
 			board[ai_y][ai_x] = "O"
 			attempts += 1
 		# AI functionality that prioritizes going for the longest straight rather than just a random cell, attempt limit to prevent an infinite loop
-		if getMax(board, 'O') > ai_max or attempts >= (len(board[0]) * len(board) * difficulty):
+		if getMax(board, 'O') > ai_max or attempts >= max_attempts:
 			break
 		else:
 			board[ai_y][ai_x] = "-"
@@ -157,8 +181,8 @@ def check_columns(board, character):
 	return max_score
 
 # checks if either player has the required score
-def score_checker(board, character):
-	if check_rows(board, character) == len(board[0])-1 or check_columns(board, character) == len(board)-1:
+def score_checker(board, character, win_score):
+	if check_rows(board, character) == win_score or check_columns(board, character) == win_score:
 		return 1
 
 # helper function to count the amount of empty cells left on the board
@@ -177,22 +201,22 @@ def draw_check(board):
 		return 0
 
 # function loop to keep the game going, checks after each turn for score and possible draw situation
-def game_loop(board, difficulty):
+def game_loop(board, difficulty, win_score):
 	while True:
 		print ("Your turn")
 		player_input(board)
 		print_board(board)
-		if score_checker(board, 'X') == 1:
+		if score_checker(board, 'X', win_score) == 1:
 			print ("You win!")
 			break
 		if draw_check(board) == 1:
 			break
 			
 		print ("AI's turn...")
-		time.sleep(2) # 2-second delay to make it seem like the AI is "thinking"
+		sleep(2) # 2-second delay to make it seem like the AI is "thinking"
 		ai_input(board, difficulty)
 		print_board(board)
-		if score_checker(board, 'O') == 1:
+		if score_checker(board, 'O', win_score) == 1:
 			print ("You lose!")
 			break
 		if draw_check(board) == 1:
@@ -202,16 +226,16 @@ def game_loop(board, difficulty):
 def main():
 	game_board = []
 	print ("Welcome to Tic-Tack-Toes")
-	init_board(game_board, "-")
+	win_score = init_board(game_board, "-")
 	difficulty = diff_check() # defines difficulty variable which is sent to AI
 	print_board(game_board)
-	game_loop(game_board, difficulty)
+	game_loop(game_board, difficulty, win_score)
 	print ("Game over man, game over!")
 	new_game = input("Enter Y to play again, any other key to quit:")
-	if new_game == "Y" or "y":
+	if new_game == "Y" or new_game == "y":
 		main()
 	else:
-		exit()
+		quit()
 			
 # execution actually begins here
 main()
