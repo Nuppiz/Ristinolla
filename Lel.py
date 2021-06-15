@@ -55,13 +55,10 @@ def init_board(board, char):
 	for row in range(board_height):
 		board.append([char] * (board_width))
 		
-	# define min and max values for score
-	if board_width <= board_height:
-		min_points = board_width
-	else:
-		min_points = board_height
+	# define max value for score based on shortest board axis
+	min_points = 3
 	
-	if board_width >= board_height:
+	if board_width < board_height:
 		max_points = board_width
 	else:
 		max_points = board_height
