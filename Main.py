@@ -1,3 +1,6 @@
+# import functionality for random integer
+from random import randint
+
 # import time.sleep for AI "delay"
 from time import sleep
 
@@ -6,6 +9,8 @@ import Ai
 
 # import board structure and score checks from another file
 import Board
+
+import sdl2.ext
 
 # necessary checks for correct difficulty input
 def diff_check():
@@ -66,6 +71,7 @@ def game_loop(board, difficulty, win_score):
 		print ("Your turn")
 		player_input(board)
 		Board.print_board(board)
+		visual_feedback(board)
 		if Board.score_checker(board, 'X', win_score) == 1:
 			print ("You win!")
 			break
@@ -96,6 +102,41 @@ def main():
 		main()
 	else:
 		quit()
-			
+
+def draw_rectangle(x, y, w, h, r ,g ,b):
+	for y_pixel in range(h):
+		for x_pixel in range(w):
+			renderer.draw_point([x+x_pixel,y+y_pixel], sdl2.ext.Color(r, g, b))
+
+def draw_cross(x, y):
+	cross_size_x = 40
+	cross_size_y = 6
+	cross_col_r = 255
+	cross_col_g = 0
+	cross_col_b = 0
+	draw_rectangle(x, y+17, cross_size_x, cross_size_y, cross_col_r, cross_col_g, cross_col_b)
+	draw_rectangle(x+17, y, cross_size_y, cross_size_x, cross_col_r, cross_col_g, cross_col_b)
+
+def visual_feedback(board):
+	draw_x = 0
+	draw_y = 0
+	for row in range(0,len(board)):
+		for column in range(0,len(board[0])):
+			if board[row][column] == 'X':
+				draw_x = int(column)*42
+				draw_y = int(row)*42
+				draw_cross(draw_x, draw_y)
+	renderer.present()
+	
+sdl2.ext.init()
+width = 640
+height = 480
+window = sdl2.ext.Window("Hello World!", size=(width, height))			
+window.show()
+renderer = sdl2.ext.Renderer(window)
+	
+processor = sdl2.ext.TestEventProcessor()
+processor.run(window)
+	
 # execution actually begins here
 main()
