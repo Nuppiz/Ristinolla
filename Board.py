@@ -101,3 +101,18 @@ def check_columns(board, character):
 def score_checker(board, character, win_score):
     if check_rows(board, character) >= win_score or check_columns(board, character) >= win_score:
         return 1
+
+# helper function to count the amount of empty cells left on the board
+def count_chars(char, board):
+    count = 0
+    for row in board:
+        count += row.count(char)
+    return count
+    
+# if no empty cells are left and neither player has the required score, game ends in a draw
+def draw_check(board):
+    if count_chars('-', board) == 0:
+        print ("Board full, it's a draw!")
+        return 1
+    else:
+        return 0

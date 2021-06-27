@@ -60,21 +60,6 @@ def player_input(board):
 	else:
 		board[player_row][player_col] = "X"
 
-# helper function to count the amount of empty cells left on the board
-def count_chars(char, board):
-	count = 0
-	for row in board:
-		count += row.count(char)
-	return count
-	
-# if no empty cells are left and neither player has the required score, game ends in a draw
-def draw_check(board):
-	if count_chars('-', board) == 0:
-		print ("Board full, it's a draw!")
-		return 1
-	else:
-		return 0
-
 # function loop to keep the game going, checks after each turn for score and possible draw situation
 def game_loop(board, difficulty, win_score):
 	while True:
@@ -84,7 +69,7 @@ def game_loop(board, difficulty, win_score):
 		if Board.score_checker(board, 'X', win_score) == 1:
 			print ("You win!")
 			break
-		if draw_check(board) == 1:
+		if Board.draw_check(board) == 1:
 			break
 			
 		print ("AI's turn...")
@@ -94,7 +79,7 @@ def game_loop(board, difficulty, win_score):
 		if Board.score_checker(board, 'O', win_score) == 1:
 			print ("You lose!")
 			break
-		if draw_check(board) == 1:
+		if Board.draw_check(board) == 1:
 			break
 
 # game initialization function and exit text	
