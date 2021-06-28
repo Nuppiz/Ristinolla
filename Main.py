@@ -64,62 +64,84 @@ def player_input(board):
 	# if all conditions are met, cell is filled with an X
 	else:
 		board[player_row][player_col] = "X"
+		
+# generalized turn function
+def turn(board, difficulty, win_score, character, renderer):
+  # Prompt for input
+  print(character + "'s turn")
+  if character == "X":
+    player_input(board)
+  else:
+  	sleep(2) # 2-second delay to make it seem like the AI is "thinking"
+  	Ai.ai_input(board, difficulty, win_score)
+  
+  # Check for victory conditions, return 1 if game ends, 0 if not
+  if Board.score_checker(board, character, win_score) == 1:
+    return 1
+  if Board.draw_check(board) == 1:
+    return 1
+  else:
+    return 0
 
 # function loop to keep the game going, checks after each turn for score and possible draw situation
-def game_loop(board, difficulty, win_score, window, renderer, processor):
-	while True:
-		print ("Your turn")
-		player_input(board)
-		Board.print_board(board)
-		processor.run(window)
-		visual_feedback(board, renderer)
-		if Board.score_checker(board, 'X', win_score) == 1:
-			print ("You win!")
-			break
-		if Board.draw_check(board) == 1:
-			break
-			
-		print ("AI's turn...")
-		sleep(2) # 2-second delay to make it seem like the AI is "thinking"
-		processor.run(window)
-		Ai.ai_input(board, difficulty, win_score)
-		Board.print_board(board)
-		visual_feedback(board, renderer)
-		if Board.score_checker(board, 'O', win_score) == 1:
-			print ("You lose!")
-			break
-		if Board.draw_check(board) == 1:
-			break
+def game_loop(board, difficulty, win_score, window, renderer):
+  whose_turn = "X"
 
-# game initialization function and exit text	
+  while True:
+    # Check for window events
+    events = sdl2.ext.get_events()
+    for event in events:
+      if event.type == sdl2.SDL_QUIT:
+        break
+        
+    # Display board & refresh window
+    Board.print_board(board)
+    visual_feedback(board, renderer)
+    window.refresh()
+
+    # Execute turn
+    if turn(board, difficulty, win_score, whose_turn, renderer) == 1:
+      break
+    
+    # Swap turn
+    if whose_turn == "X":
+      whose_turn = "O"
+    else:
+      whose_turn = "X"
+  
+  # Display board last time after game ends / while loop is over
+  Board.print_board(board)
+  visual_feedback(board, renderer)
+
+# game initialization function and exit text	  
 def main():
-	# initialize  SDL2 objects & variables
-	sdl2.ext.init()
-	width = 640
-	height = 480
-	window = sdl2.ext.Window("Hello World!", size=(width, height))      
-	renderer = sdl2.ext.Renderer(window)
-	processor = sdl2.ext.TestEventProcessor()
-	# show window
-	window.show()
-	
-	game_board = []
-	print ("Welcome to Tic-Tack-Toes")
-	win_score = Board.init_board(game_board, "-")
-	difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
-	
-	processor.run(window)
-	visual_feedback(game_board, renderer)
-	Board.print_board(game_board)
-	
-	game_loop(game_board, difficulty, win_score, window, renderer, processor)
-	
-	print ("Game over man, game over!")
-	new_game = input("Enter Y to play again, any other key to quit:")
-	if new_game == "Y" or new_game == "y":
-		main()
-	else:
-		quit()
+  # initialize  SDL2 objects & variables
+  sdl2.ext.init()
+  width = 640
+  height = 480
+  window = sdl2.ext.Window("Hello World!", size=(width, height))      
+  renderer = sdl2.ext.Renderer(window)
+  processor = sdl2.ext.TestEventProcessor()
+  
+  # configure game
+  game_board = []
+  print ("Welcome to Tic-Tack-Toes")
+  win_score = Board.init_board(game_board, "-")
+  difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
+
+  # show window
+  window.show()
+
+  # begin the actual game
+  game_loop(game_board, difficulty, win_score, window, renderer)
+  
+  # game over, quit/restart
+  print ("Game over man, game over!")
+  new_game = input("Enter Y to play again, any other key to quit:")
+  if new_game == "Y" or new_game == "y":
+    main()
+  else:
+    quit()
 
 def draw_rectangle(renderer, x, y, w, h, r ,g ,b):
 	for y_pixel in range(h):
