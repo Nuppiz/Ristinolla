@@ -122,7 +122,9 @@ def main():
   # show window
   Graphics.window.show()
   color = Graphics.sdl2.ext.Color(0, 128, 0)
-  Graphics.sdl2.ext.fill(window_surface, color, (0, 0, width, height))
+  Graphics.sdl2.ext.fill(Graphics.window_surface, color, (0, 0, Graphics.width, Graphics.height))
+  color = Graphics.sdl2.ext.Color(0, 0, 0)
+  Graphics.sdl2.ext.line(Graphics.window_surface, color, (0, 0, 100, 100))
 
   # begin the actual game
   game_loop(game_board, difficulty, win_score)

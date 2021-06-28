@@ -6,12 +6,12 @@ import sdl2.ext
 sdl2.ext.init()
 width = 640
 height = 480
-window = sdl2.ext.Window("Hello World!", size=(width, height))
+window = sdl2.ext.Window("Tic-Tac-Toes", size=(width, height))
 window_surface = window.get_surface()      
 
 def draw_rectangle(x,y,  w,h,  r,g,b):
   color = sdl2.ext.Color(r,g,b)
-  Graphics.sdl2.ext.fill(window_surface, color, (x,y,  w,h))
+  sdl2.ext.fill(window_surface, color, (x,y,  w,h))
   
 def draw_cross(x, y):
     cross_size_x = 40
