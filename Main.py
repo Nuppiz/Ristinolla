@@ -92,10 +92,9 @@ def game_loop(board, difficulty, win_score):
       if event.type == Graphics.sdl2.SDL_QUIT:
         break
         
-    # Display board & refresh window
+    # Display board
     Board.print_board(board)
     Graphics.visual_feedback(board)
-    Graphics.window.refresh()
 
     # Execute turn
     if turn(board, difficulty, win_score, whose_turn) == 1:
@@ -123,7 +122,7 @@ def main():
   # show window
   Graphics.window.show()
   color = Graphics.sdl2.ext.Color(0, 128, 0)
-  Graphics.renderer.clear()
+  Graphics.sdl2.ext.fill(window_surface, color, (0, 0, width, height))
 
   # begin the actual game
   game_loop(game_board, difficulty, win_score)
