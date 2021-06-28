@@ -1,6 +1,3 @@
-# import functionality for random integer
-from random import randint
-
 # import time.sleep for AI "delay"
 from time import sleep
 
@@ -12,7 +9,6 @@ import Board
 
 # import graphics from another file
 import Graphics
-import sdl2.ext
 
 # necessary checks for correct difficulty input
 def diff_check():
@@ -68,7 +64,7 @@ def player_input(board):
 		board[player_row][player_col] = "X"
 		
 # generalized turn function
-def turn(board, difficulty, win_score, character, renderer):
+def turn(board, difficulty, win_score, character):
   # Prompt for input
   print(character + "'s turn")
   if character == "X":
@@ -86,23 +82,23 @@ def turn(board, difficulty, win_score, character, renderer):
     return 0
 
 # function loop to keep the game going, checks after each turn for score and possible draw situation
-def game_loop(board, difficulty, win_score, window, renderer):
+def game_loop(board, difficulty, win_score):
   whose_turn = "X"
 
   while True:
     # Check for window events
-    events = sdl2.ext.get_events()
+    events = Graphics.sdl2.ext.get_events()
     for event in events:
-      if event.type == sdl2.SDL_QUIT:
+      if event.type == Graphics.sdl2.SDL_QUIT:
         break
         
     # Display board & refresh window
     Board.print_board(board)
-    Graphics.visual_feedback(board, renderer)
-    window.refresh()
+    Graphics.visual_feedback(board)
+    Graphics.window.refresh()
 
     # Execute turn
-    if turn(board, difficulty, win_score, whose_turn, renderer) == 1:
+    if turn(board, difficulty, win_score, whose_turn) == 1:
       break
     
     # Swap turn
@@ -113,7 +109,7 @@ def game_loop(board, difficulty, win_score, window, renderer):
   
   # Display board last time after game ends / while loop is over
   Board.print_board(board)
-  Graphics.visual_feedback(board, renderer)
+  Graphics.visual_feedback(board)
 
 # game initialization function and exit text	  
 def main():
@@ -124,13 +120,13 @@ def main():
   win_score = Board.init_board(game_board, "-")
   difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
   
-  window = Graphics.window
-  renderer = Graphics.renderer
   # show window
-  window.show()
+  Graphics.window.show()
+  color = Graphics.sdl2.ext.Color(0, 128, 0)
+  Graphics.renderer.clear()
 
   # begin the actual game
-  game_loop(game_board, difficulty, win_score, window, renderer)
+  game_loop(game_board, difficulty, win_score)
   
   # game over, quit/restart
   print ("Game over man, game over!")
