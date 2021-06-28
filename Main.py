@@ -121,7 +121,6 @@ def main():
   height = 480
   window = sdl2.ext.Window("Hello World!", size=(width, height))      
   renderer = sdl2.ext.Renderer(window)
-  processor = sdl2.ext.TestEventProcessor()
   
   # configure game
   game_board = []

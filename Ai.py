@@ -14,16 +14,20 @@ def ai_try_win(board, difficulty, win_score):
     ai_y = randint(0, len(board) - 1)
     ai_x = randint(0, len(board[0]) - 1)
 
-    if board[ai_y][ai_x] != "-":
+    if board[ai_y][ai_x] != "-": # checks that the cell is empty, if not, try again with new coords
       continue
     else:
-      board[ai_y][ai_x] = "O"
+      board[ai_y][ai_x] = "O"  # put a temporary O in the chosen cell
       attempts += 1
 
+    # if that O results in AI winning, return True
     if Board.getMax(board, 'O') >= win_score:
       return True
+    # else if out of attempts, end this function
     elif attempts >= max_attempts:
+      board[ai_y][ai_x] = "-"
       return False
+    # else erase the temporary O and try again
     else:
       board[ai_y][ai_x] = "-"
 
