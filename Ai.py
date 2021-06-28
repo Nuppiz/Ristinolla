@@ -35,18 +35,20 @@ def ai_prevent_player_win(board, difficulty, win_score):
     ai_y = randint(0, len(board) - 1)
     ai_x = randint(0, len(board[0]) - 1)
 
-    if board[ai_y][ai_x] != "-":
+    if board[ai_y][ai_x] != "-": # checks that the cell is empty, if not, try again with new coords
       continue
     else:
-      board[ai_y][ai_x] = "X"
+      board[ai_y][ai_x] = "X" # put a temporary X in the chosen cell
       attempts += 1
-
+      
+    # if that X would result in a player win, switch it to O to prevent it
     if Board.getMax(board, 'X') >= win_score:
       board[ai_y][ai_x] = "O"
       return True
+    # if out of attempts, end this function
     elif attempts >= max_attempts:
-      board[ai_y][ai_x] = "O"
       return False
+    # else erase the temporary X and try again
     else:
       board[ai_y][ai_x] = "-"
   
@@ -73,14 +75,14 @@ def ai_input(board, difficulty, win_score):
     player_max = Board.getMax(board, 'X')
     success = False
     
+    # check if almost winning, and try to place last O
+    if ai_max == win_score-1:
+          success = ai_try_win(board, difficulty, win_score)
+    
     # check if player is almost winning
-    if player_max == win_score-1:
+    if not success and player_max == win_score-1:
           success = ai_prevent_player_win(board, difficulty, win_score)
 
-      # check if almost winning, and try to place last O
-    if not success and ai_max == win_score-1:
-          success = ai_try_win(board, difficulty, win_score)
-
-      # finally, just try to add an O somewhere
+    # finally, just try to add an O somewhere
     if not success:
           ai_think(board, difficulty, ai_max)
