@@ -8,16 +8,11 @@ width = 640
 height = 480
 window = sdl2.ext.Window("Hello World!", size=(width, height))
 window_surface = window.get_surface()      
-renderer = sdl2.ext.Renderer(window)
 
-def draw_rectangle(x, y, w, h, r ,g ,b):
-  pixel_memory = sdl2.ext.PixelView(window_surface)
-  color = sdl2.ext.Color(r, g, b)
-
-  for y_pixel in range(h):
-    for x_pixel in range(w):
-      pixel_memory[y+y_pixel][x+x_pixel]
-
+def draw_rectangle(x,y,  w,h,  r,g,b):
+  color = sdl2.ext.Color(r,g,b)
+  Graphics.sdl2.ext.fill(window_surface, color, (x,y,  w,h))
+  
 def draw_cross(x, y):
     cross_size_x = 40
     cross_size_y = 6
@@ -51,4 +46,4 @@ def visual_feedback(board):
                 draw_x = int(column)*42
                 draw_y = int(row)*42
                 draw_square(draw_x, draw_y)
-    renderer.present()
+    window.refresh()
