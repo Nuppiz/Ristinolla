@@ -14,36 +14,78 @@ def draw_rectangle(x,y,  w,h,  r,g,b):
     sdl2.ext.fill(window_surface, color, (x,y,  w,h))
   
 def draw_cross(x, y, grid_sq_size):
+    #dimensions
     margin = grid_sq_size / 10
-    x_offset = x + margin + 1
-    y_offset = y + margin + 1
     cross_size_x = grid_sq_size - (2 * margin + 1)
     cross_size_y = cross_size_x / 8
     line_width_scale = 1 / 8
     empty_space_scale = (1 - line_width_scale) / 2
 
+    #color
     cr_col_r = 255
     cr_col_g = 255
     cr_col_b = 255
 
-    draw_rectangle(x_offset, y + grid_sq_size * empty_space_scale + 1, cross_size_x, cross_size_y, cr_col_r, cr_col_g, cr_col_b)
-    draw_rectangle(x + grid_sq_size * empty_space_scale + 1, y_offset, cross_size_y, cross_size_x, cr_col_r, cr_col_g, cr_col_b)
+    # horizontal line
+    draw_rectangle(x + margin + 1,                              # start point x
+                   y + grid_sq_size * empty_space_scale + 1,    # start point y
+                   cross_size_x,                                # width
+                   cross_size_y,                                # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b)
+                   
+    # vertical line
+    draw_rectangle(x + grid_sq_size * empty_space_scale + 1,    # start point x
+                   y + margin + 1,                              # start point y
+                   cross_size_y,                                # width
+                   cross_size_x,                                # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b)
     
 def draw_square(x, y, grid_sq_size):
+    # dimensions
     margin = grid_sq_size / 10
-    x_offset = x + margin + 1
-    y_offset = y + margin + 1
     cross_size_x = grid_sq_size - (2 * margin + 1)
     cross_size_y = cross_size_x / 8
     line_width_scale = 1 / 8
     empty_space_scale = 1 - line_width_scale
+    
+    # color
     cr_col_r = 255
     cr_col_g = 0
     cr_col_b = 0
-    draw_rectangle(x_offset, y_offset, cross_size_x, cross_size_y, cr_col_r, cr_col_g, cr_col_b)
-    draw_rectangle(x_offset, y_offset, cross_size_y, cross_size_x, cr_col_r, cr_col_g, cr_col_b)
-    draw_rectangle(x_offset, y-margin + grid_sq_size * empty_space_scale + 1, cross_size_x, cross_size_y, cr_col_r, cr_col_g, cr_col_b)
-    draw_rectangle(x-margin + grid_sq_size * empty_space_scale + 1, y_offset, cross_size_y, cross_size_x, cr_col_r, cr_col_g, cr_col_b)
+    
+    # top line
+    draw_rectangle(x + margin + 1,    # start point x
+                   y + margin + 1,    # start point y
+                   cross_size_x,      # width
+                   cross_size_y,      # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b) 
+             
+    # left line
+    draw_rectangle(x + margin + 1,    # start point x
+                   y + margin + 1,    # start point y
+                   cross_size_y,      # width
+                   cross_size_x,      # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b) 
+    
+    # bottom line
+    draw_rectangle(x + margin + 1,                                    # start point x
+                   y - margin + grid_sq_size * empty_space_scale + 1, # start point y
+                   cross_size_x,                                      # width
+                   cross_size_y,                                      # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b) 
+    
+    # right line
+    draw_rectangle(x - margin + grid_sq_size * empty_space_scale + 1, # start point x
+                   y + margin + 1,                                    # start point y
+                   cross_size_y,                                      # width
+                   cross_size_x,                                      # height
+                   # color
+                   cr_col_r, cr_col_g, cr_col_b)
 
 def visual_feedback(board, grid_sq_size):
     draw_x = 0
