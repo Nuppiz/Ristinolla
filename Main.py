@@ -82,7 +82,7 @@ def turn(board, difficulty, win_score, character):
     return 0
 
 # function loop to keep the game going, checks after each turn for score and possible draw situation
-def game_loop(board, difficulty, win_score):
+def game_loop(board, difficulty, win_score, grid_sq_size):
   whose_turn = "X"
 
   while True:
@@ -94,7 +94,7 @@ def game_loop(board, difficulty, win_score):
         
     # Display board
     Board.print_board(board)
-    Graphics.visual_feedback(board)
+    Graphics.visual_feedback(board, grid_sq_size)
 
     # Execute turn
     if turn(board, difficulty, win_score, whose_turn) == 1:
@@ -108,7 +108,7 @@ def game_loop(board, difficulty, win_score):
   
   # Display board last time after game ends / while loop is over
   Board.print_board(board)
-  Graphics.visual_feedback(board)
+  Graphics.visual_feedback(board, grid_sq_size)
 
 # game initialization function and exit text	  
 def main():
@@ -118,16 +118,15 @@ def main():
   print ("Welcome to Tic-Tack-Toes")
   win_score = Board.init_board(game_board, "-")
   difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
+  grid_sq_size = 43
   
   # show window
   Graphics.window.show()
   color = Graphics.sdl2.ext.Color(0, 128, 0)
   Graphics.sdl2.ext.fill(Graphics.window_surface, color, (0, 0, Graphics.width, Graphics.height))
-  color = Graphics.sdl2.ext.Color(0, 0, 0)
-  Graphics.sdl2.ext.line(Graphics.window_surface, color, (0, 0, 100, 100))
 
   # begin the actual game
-  game_loop(game_board, difficulty, win_score)
+  game_loop(game_board, difficulty, win_score, grid_sq_size)
   
   # game over, quit/restart
   print ("Game over man, game over!")
