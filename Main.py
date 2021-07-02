@@ -118,7 +118,12 @@ def main():
   print ("Welcome to Tic-Tack-Toes")
   win_score = Board.init_board(game_board, "-")
   difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
-  grid_sq_size = 43
+  grid_width = Graphics.width // len(game_board[0])
+  grid_height = Graphics.height // len(game_board)
+  if grid_height > grid_width:
+  	grid_sq_size = grid_width
+  else:
+  	grid_sq_size = grid_height
   
   # show window
   Graphics.window.show()

@@ -1,13 +1,16 @@
 # functions relevant for controlling graphics output
 
 import sdl2.ext
+import math
 
 # initialize  SDL2 objects & variables
 sdl2.ext.init()
 width = 640
 height = 480
 window = sdl2.ext.Window("Tic-Tac-Toes", size=(width, height))
-window_surface = window.get_surface()      
+window_surface = window.get_surface()
+pixelthing = sdl2.ext.PixelView(window_surface)
+
 
 def draw_rectangle(x,y,  w,h,  r,g,b):
     color = sdl2.ext.Color(r,g,b)
@@ -86,6 +89,23 @@ def draw_square(x, y, grid_sq_size):
                    cross_size_x,                                      # height
                    # color
                    cr_col_r, cr_col_g, cr_col_b)
+    
+def draw_circle(x, y, grid_sq_size):
+    margin = grid_sq_size / 10
+    radius = int((grid_sq_size - margin) / 2)
+    radius2 = int(radius / 4)
+    x = x + grid_sq_size // 2
+    y = y + grid_sq_size // 2
+    
+    # color
+    ci_col_r = 255
+    ci_col_g = 0
+    ci_col_b = 0
+    
+    for y_pix in range (-radius, radius):
+        for x_pix in range (-radius, radius):
+            if math.sqrt(y_pix**2 + x_pix**2) < radius and math.sqrt(y_pix**2 + x_pix**2) > radius-radius2:
+                pixelthing[y + y_pix] [x + x_pix] = sdl2.ext.Color(ci_col_r, ci_col_g, ci_col_b)
 
 def visual_feedback(board, grid_sq_size):
     draw_x = 0
@@ -105,7 +125,7 @@ def visual_feedback(board, grid_sq_size):
         sdl2.ext.line(window_surface, grid_color, (grid_x, 0, grid_x, grid_size_y))
         grid_x += grid_sq_size
               
-    # draw crosses or circles (actually squares) for each player
+    # draw crosses or circles for each player
     for row in range(0,len(board)):
         for column in range(0,len(board[0])):
             if board[row][column] == 'X':
@@ -115,5 +135,5 @@ def visual_feedback(board, grid_sq_size):
             elif board[row][column] == 'O':
                 draw_x = int(column) * grid_sq_size
                 draw_y = int(row) * grid_sq_size
-                draw_square(draw_x, draw_y, grid_sq_size)
+                draw_circle(draw_x, draw_y, grid_sq_size)
     window.refresh()
