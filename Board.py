@@ -64,7 +64,15 @@ def print_board(board):
 # used by AI to check for longest current straight
 def getMax(board, character):
     max_rows = check_rows(board, character)
-    max_cols = check_columns (board, character)
+    max_cols = check_columns(board, character)
+    if max_rows > max_cols:
+        return max_rows
+    else:
+        return max_cols
+    
+def getMax_open(board, character, win_score):
+    max_rows = check_rows_open(board, character, win_score)
+    max_cols = check_columns_open(board, character, win_score)
     if max_rows > max_cols:
         return max_rows
     else:
@@ -97,6 +105,66 @@ def check_columns(board, character):
                 score = 0
     return max_score
 
+def check_columns_open(board, character, win_score):
+    final_score = 0
+    
+    for column in range(0,len(board[0])):
+        score = 0
+        max_score = 0
+        open_len = 0
+        
+        for row in range(0,len(board)):
+            if board[row][column] == character:
+                score +=1
+                open_len +=1
+                if score > max_score:
+                    max_score = score
+            elif board[row][column] == "-":
+                score = 0
+                open_len +=1
+            else:
+                score = 0
+                open_len = 0
+                max_score = 0
+            
+            if open_len >= win_score and score > max_score:
+                max_score = score
+                
+            if open_len >= win_score and max_score > final_score:
+                final_score = max_score 
+                
+    return final_score
+
+def check_rows_open(board, character, win_score):
+    final_score = 0
+    
+    for row in range(0,len(board)):
+        score = 0
+        max_score = 0
+        open_len = 0
+        
+        for column in range(0,len(board[0])):
+            if board[row][column] == character:
+                score +=1
+                open_len +=1
+                if score > max_score:
+                    max_score = score
+            elif board[row][column] == "-":
+                score = 0
+                open_len +=1
+            else:
+                score = 0
+                open_len = 0
+                max_score = 0
+            
+            if open_len >= win_score and score > max_score:
+                max_score = score
+                
+            if open_len >= win_score and max_score > final_score:
+                final_score = max_score 
+                
+    return final_score
+    
 # checks if either player has the required score
 def score_checker(board, character, win_score):
     if check_rows(board, character) >= win_score or check_columns(board, character) >= win_score:

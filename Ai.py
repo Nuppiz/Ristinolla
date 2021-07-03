@@ -57,10 +57,10 @@ def ai_prevent_player_win(board, difficulty, win_score):
     else:
       board[ai_y][ai_x] = "-"
   
-def ai_think(board, difficulty):
+def ai_think(board, difficulty, win_score):
   attempts = 0
   max_attempts = len(board[0]) * len(board) * difficulty # determines max attempts by board size and difficulty
-  ai_max = Board.getMax(board, 'O')
+  ai_max = Board.getMax_open(board, 'O', win_score)
 
   while True:
     # randint to generate a random pair of coordinates
@@ -75,7 +75,12 @@ def ai_think(board, difficulty):
         attempts += 1
 
     # once an O has been placed above, check if we get a longer straight or if we ran out of attempts
-    if Board.getMax(board, 'O') > ai_max or attempts >= max_attempts:
+    new_max = Board.getMax_open(board, 'O', win_score)
+    if new_max > ai_max or attempts >= max_attempts:
+        print("New_max == ", new_max, ", ai_max == ", ai_max)
+        if attempts >= max_attempts:
+            print("Out of attempts")
+        
         break
     # if above not true and attempts still left, erase O and try again
     else:
@@ -96,4 +101,4 @@ def ai_input(board, difficulty, win_score):
   # finally, just try to add an O somewhere
   if not success:
     print("Didn't see player winning anywhere or couldn't stop him, just think normally")
-    ai_think(board, difficulty)
+    ai_think(board, difficulty, win_score)
