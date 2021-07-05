@@ -214,19 +214,12 @@ def check_downwards(board, character):
         x += 1
         y += 1
         
-        # if reached the end of the row, reset row and move horizontal start point by 1
-        if x >= len(board[0]):
+        # if reached the end of the row or column, reset row and move horizontal start point by 1
+        if x >= len(board[0]) or y >= len(board):
             diagonal += 1
             y = 0
             x = diagonal
             score = 0            
-            continue
-        # same as above but with columns   
-        elif y >= len(board):
-            diagonal += 1
-            y = 0
-            x = diagonal   
-            score = 0        
             continue
         
     # lower triangle
@@ -251,18 +244,11 @@ def check_downwards(board, character):
         x += 1
         y += 1
         
-        if x >= len(board[0]):
+        if x >= len(board[0]) or y >= len(board):
             diagonal += 1
             y = diagonal
             x = 0            
             score = 0
-            continue
-            
-        elif y >= len(board):
-            diagonal += 1
-            y = diagonal
-            x = 0       
-            score = 0    
             continue
         
     return max_score
@@ -295,18 +281,11 @@ def check_upwards(board, character):
         x += 1
         y -= 1
         
-        # if reached the end of the row, reset row and move horizontal start point by 1
-        if x >= len(board[0]):
+        # if reached the end of the row or column, reset row and move horizontal start point by 1
+        if x >= len(board[0]) or y < 0:
             diagonal += 1
             y = len(board)-1
             x = diagonal     
-            score = 0       
-            continue
-        # same as above but with columns   
-        elif y < 0:
-            diagonal += 1
-            y = len(board)-1
-            x = diagonal    
             score = 0       
             continue
         
@@ -333,18 +312,11 @@ def check_upwards(board, character):
         x += 1
         y -= 1
         
-        if x >= len(board[0]):
+        if x >= len(board[0]) or y < 0:
             diagonal -= 1
             y = diagonal
             x = 0   
             score = 0       
-            continue
-            
-        elif y < 0:
-            diagonal -= 1
-            y = diagonal
-            x = 0   
-            score = 0    
             continue
         
     return max_score
@@ -382,7 +354,6 @@ def check_down_open(board, character, win_score):
         else:
             score = 0
             open_len = 0
-            max_score = 0
             
         if open_len >= win_score:
             if score > max_score:
@@ -394,21 +365,14 @@ def check_down_open(board, character, win_score):
         x += 1
         y += 1
         
-        # if reached the end of the row, reset row and move horizontal start point by 1
-        if x >= len(board[0]):
+        # if reached the end of the row or column, reset row and move horizontal start point by 1
+        if x >= len(board[0]) or y >= len(board):
             diagonal += 1
             y = 0
             x = diagonal
             score = 0
+            max_score = 0
             open_len = 0    
-            continue
-        # same as above but with columns   
-        elif y >= len(board):
-            diagonal += 1
-            y = 0
-            x = diagonal   
-            score = 0
-            open_len = 0   
             continue
         
     # lower triangle
@@ -436,7 +400,6 @@ def check_down_open(board, character, win_score):
         else:
             score = 0
             open_len = 0
-            max_score = 0
             
         if open_len >= win_score:
             if score > max_score:
@@ -447,19 +410,12 @@ def check_down_open(board, character, win_score):
         x += 1
         y += 1
         
-        if x >= len(board[0]):
+        if x >= len(board[0]) or y >= len(board):
             diagonal += 1
             y = diagonal
             x = 0            
             score = 0
-            open_len = 0
-            continue
-            
-        elif y >= len(board):
-            diagonal += 1
-            y = diagonal
-            x = 0       
-            score = 0
+            max_score = 0
             open_len = 0
             continue
         
@@ -498,8 +454,7 @@ def check_up_open(board, character, win_score):
         else:
             score = 0
             open_len = 0
-            max_score = 0
-            
+
         if open_len >= win_score:
             if score > max_score:
                 max_score = score      
@@ -510,20 +465,13 @@ def check_up_open(board, character, win_score):
         x += 1
         y -= 1
         
-        # if reached the end of the row, reset row and move horizontal start point by 1
-        if x >= len(board[0]):
+        # if reached the end of the row or column, reset row and move horizontal start point by 1
+        if x >= len(board[0]) or y < 0:
             diagonal += 1
             y = len(board)-1
             x = diagonal     
             score = 0
-            open_len = 0
-            continue
-        # same as above but with columns   
-        elif y < 0:
-            diagonal += 1
-            y = len(board)-1
-            x = diagonal    
-            score = 0
+            max_score = 0
             open_len = 0
             continue
         
@@ -553,7 +501,6 @@ def check_up_open(board, character, win_score):
         else:
             score = 0
             open_len = 0
-            max_score = 0
             
         if open_len >= win_score:
             if score > max_score:
@@ -564,23 +511,16 @@ def check_up_open(board, character, win_score):
         x += 1
         y -= 1
         
-        if x >= len(board[0]):
+        if x >= len(board[0]) or y < 0:
             diagonal -= 1
             y = diagonal
             x = 0   
             score = 0
-            open_len = 0
-            continue
-            
-        elif y < 0:
-            diagonal -= 1
-            y = diagonal
-            x = 0   
-            score = 0
+            max_score = 0
             open_len = 0
             continue
         
-    return max_score
+    return final_score
     
 # checks if either player has the required score
 def score_checker(board, character, win_score):
