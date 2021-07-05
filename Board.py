@@ -76,11 +76,10 @@ def getMax(board, character):
 def getMax_open(board, character, win_score):
     max_rows = check_rows_open(board, character, win_score)
     max_cols = check_columns_open(board, character, win_score)
+    max_diag = check_diag_open(board, character, win_score)
+    max_straight = max(max_rows, max_cols, max_diag)
     
-    if max_rows > max_cols:
-        return max_rows
-    else:
-        return max_cols
+    return max_straight
     
 # functions to check each row and column for consecutive characters (X or O)
 def check_rows(board, character):
@@ -174,6 +173,14 @@ def check_rows_open(board, character, win_score):
 def check_diagonal(board, character):
     max_down = check_downwards(board, character)
     max_up = check_upwards(board, character)
+    if max_down > max_up:
+        return max_down
+    else:
+        return max_up
+    
+def check_diag_open(board, character, win_score):
+    max_down = check_down_open(board, character, win_score)
+    max_up = check_up_open(board, character, win_score)
     if max_down > max_up:
         return max_down
     else:
@@ -338,6 +345,239 @@ def check_upwards(board, character):
             y = diagonal
             x = 0   
             score = 0    
+            continue
+        
+    return max_score
+
+def check_down_open(board, character, win_score):
+    
+    final_score = 0
+    
+    score = 0
+    open_len = 0
+    max_score = 0
+    
+    # upper triangle
+    diagonal = 0 # horizontal or vertical starting point
+    x = 0
+    y = 0
+    
+    while True:        
+        # break function after the starting point has reached the last horizontal cell
+        if diagonal >= len(board[0]):
+            break
+        
+        # increase score if character found in square
+        if board[y][x] == character:
+            score += 1
+            open_len += 1
+            if score > max_score:
+                max_score = score
+                
+        elif board[y][x] == "-":
+            score = 0
+            open_len += 1
+            
+        # otherwise combo break, 0
+        else:
+            score = 0
+            open_len = 0
+            max_score = 0
+            
+        if open_len >= win_score:
+            if score > max_score:
+                max_score = score      
+            if max_score > final_score:
+                final_score = max_score
+        
+        # move diagonally downwards
+        x += 1
+        y += 1
+        
+        # if reached the end of the row, reset row and move horizontal start point by 1
+        if x >= len(board[0]):
+            diagonal += 1
+            y = 0
+            x = diagonal
+            score = 0
+            open_len = 0    
+            continue
+        # same as above but with columns   
+        elif y >= len(board):
+            diagonal += 1
+            y = 0
+            x = diagonal   
+            score = 0
+            open_len = 0   
+            continue
+        
+    # lower triangle
+    diagonal = 1
+    x = 0
+    y = 1
+    
+    while True:
+        
+        if diagonal >= len(board):
+            break
+        
+        # increase score if character found in square
+        if board[y][x] == character:
+            score += 1
+            open_len += 1
+            if score > max_score:
+                max_score = score
+                
+        elif board[y][x] == "-":
+            score = 0
+            open_len += 1
+            
+        # otherwise combo break, 0
+        else:
+            score = 0
+            open_len = 0
+            max_score = 0
+            
+        if open_len >= win_score:
+            if score > max_score:
+                max_score = score      
+            if max_score > final_score:
+                final_score = max_score
+        
+        x += 1
+        y += 1
+        
+        if x >= len(board[0]):
+            diagonal += 1
+            y = diagonal
+            x = 0            
+            score = 0
+            open_len = 0
+            continue
+            
+        elif y >= len(board):
+            diagonal += 1
+            y = diagonal
+            x = 0       
+            score = 0
+            open_len = 0
+            continue
+        
+    return final_score
+
+def check_up_open(board, character, win_score):
+    
+    final_score = 0
+    
+    score = 0
+    open_len = 0
+    max_score = 0
+    
+    # lower triangle
+    diagonal = 0 # horizontal or vertical starting point
+    x = 0
+    y = len(board)-1
+    
+    while True:
+        # break function after the starting point has reached the last horizontal cell
+        if diagonal >= len(board[0]):
+            break
+        
+        # increase score if character found in square
+        if board[y][x] == character:
+            score += 1
+            open_len += 1
+            if score > max_score:
+                max_score = score
+                
+        elif board[y][x] == "-":
+            score = 0
+            open_len += 1
+            
+        # otherwise combo break, 0
+        else:
+            score = 0
+            open_len = 0
+            max_score = 0
+            
+        if open_len >= win_score:
+            if score > max_score:
+                max_score = score      
+            if max_score > final_score:
+                final_score = max_score
+        
+        # move diagonally upwards
+        x += 1
+        y -= 1
+        
+        # if reached the end of the row, reset row and move horizontal start point by 1
+        if x >= len(board[0]):
+            diagonal += 1
+            y = len(board)-1
+            x = diagonal     
+            score = 0
+            open_len = 0
+            continue
+        # same as above but with columns   
+        elif y < 0:
+            diagonal += 1
+            y = len(board)-1
+            x = diagonal    
+            score = 0
+            open_len = 0
+            continue
+        
+    # upper triangle
+    diagonal = len(board)-1
+    number = 1
+    x = 0
+    y = len(board)-2
+    
+    while True:
+        
+        if diagonal < 0:
+            break
+        
+        # increase score if character found in square
+        if board[y][x] == character:
+            score += 1
+            open_len += 1
+            if score > max_score:
+                max_score = score
+                
+        elif board[y][x] == "-":
+            score = 0
+            open_len += 1
+            
+        # otherwise combo break, 0
+        else:
+            score = 0
+            open_len = 0
+            max_score = 0
+            
+        if open_len >= win_score:
+            if score > max_score:
+                max_score = score      
+            if max_score > final_score:
+                final_score = max_score
+
+        x += 1
+        y -= 1
+        
+        if x >= len(board[0]):
+            diagonal -= 1
+            y = diagonal
+            x = 0   
+            score = 0
+            open_len = 0
+            continue
+            
+        elif y < 0:
+            diagonal -= 1
+            y = diagonal
+            x = 0   
+            score = 0
+            open_len = 0
             continue
         
     return max_score
