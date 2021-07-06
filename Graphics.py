@@ -21,9 +21,8 @@ def draw_cross(x, y, grid_sq_size):
     margin = grid_sq_size / 10
     cross_size_x = grid_sq_size - (2 * margin + 1)
     cross_size_y = cross_size_x / 8
-    line_width_scale = 1 / 8
-    empty_space_scale = (1 - line_width_scale) / 2
-
+    empty_space = (grid_sq_size - cross_size_y) / 2
+  
     #color
     cr_col_r = 255
     cr_col_g = 255
@@ -31,14 +30,14 @@ def draw_cross(x, y, grid_sq_size):
 
     # horizontal line
     draw_rectangle(x + margin + 1,                              # start point x
-                   y + grid_sq_size * empty_space_scale + 1,    # start point y
+                   y + empty_space + 1,    # start point y
                    cross_size_x,                                # width
                    cross_size_y,                                # height
                    # color
                    cr_col_r, cr_col_g, cr_col_b)
                    
     # vertical line
-    draw_rectangle(x + grid_sq_size * empty_space_scale + 1,    # start point x
+    draw_rectangle(x + empty_space + 1,    # start point x
                    y + margin + 1,                              # start point y
                    cross_size_y,                                # width
                    cross_size_x,                                # height
@@ -50,8 +49,7 @@ def draw_square(x, y, grid_sq_size):
     margin = grid_sq_size / 10
     cross_size_x = grid_sq_size - (2 * margin + 1)
     cross_size_y = cross_size_x / 8
-    line_width_scale = 1 / 8
-    empty_space_scale = 1 - line_width_scale
+    empty_space_scale = 0.875
     
     # color
     cr_col_r = 255
@@ -92,8 +90,8 @@ def draw_square(x, y, grid_sq_size):
     
 def draw_circle(x, y, grid_sq_size):
     margin = grid_sq_size / 10
-    radius = int((grid_sq_size - margin) / 2)
-    radius2 = int(radius / 4)
+    radius = int((grid_sq_size / 2) - margin)
+    thickness = int(radius / 4)
     x = x + grid_sq_size // 2
     y = y + grid_sq_size // 2
     
@@ -104,7 +102,8 @@ def draw_circle(x, y, grid_sq_size):
     
     for y_pix in range (-radius, radius):
         for x_pix in range (-radius, radius):
-            if math.sqrt(y_pix**2 + x_pix**2) < radius and math.sqrt(y_pix**2 + x_pix**2) > radius-radius2:
+            distance = math.sqrt(y_pix**2 + x_pix**2)
+            if distance < radius and distance > radius-thickness:
                 pixelthing[y + y_pix] [x + x_pix] = sdl2.ext.Color(ci_col_r, ci_col_g, ci_col_b)
 
 def visual_feedback(board, grid_sq_size):
