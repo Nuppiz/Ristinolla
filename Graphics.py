@@ -1,7 +1,7 @@
 # functions relevant for controlling graphics output
 
 import sdl2.ext
-import math
+from math import sqrt
 
 # initialize  SDL2 objects & variables
 sdl2.ext.init()
@@ -102,7 +102,7 @@ def draw_circle(x, y, grid_sq_size):
     
     for y_pix in range (-radius, radius):
         for x_pix in range (-radius, radius):
-            distance = math.sqrt(y_pix**2 + x_pix**2)
+            distance = sqrt(y_pix**2 + x_pix**2)
             if distance < radius and distance > radius-thickness:
                 pixelthing[y + y_pix] [x + x_pix] = sdl2.ext.Color(ci_col_r, ci_col_g, ci_col_b)
 
