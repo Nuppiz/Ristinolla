@@ -132,11 +132,10 @@ def check_columns_open(board, character, win_score):
                 open_len = 0
                 max_score = 0
             
-            if open_len >= win_score and score > max_score:
-                max_score = score
-                
-            if open_len >= win_score and max_score > final_score:
-                final_score = max_score 
+            if open_len >= win_score:
+                            
+                if max_score > final_score:
+                    final_score = max_score
                 
     return final_score
 
@@ -162,11 +161,10 @@ def check_rows_open(board, character, win_score):
                 open_len = 0
                 max_score = 0
             
-            if open_len >= win_score and score > max_score:
-                max_score = score
-                
-            if open_len >= win_score and max_score > final_score:
-                final_score = max_score 
+            if open_len >= win_score:
+                            
+                if max_score > final_score:
+                    final_score = max_score
                 
     return final_score
 
@@ -356,8 +354,7 @@ def check_down_open(board, character, win_score):
             open_len = 0
             
         if open_len >= win_score:
-            if score > max_score:
-                max_score = score      
+                        
             if max_score > final_score:
                 final_score = max_score
         
@@ -402,8 +399,7 @@ def check_down_open(board, character, win_score):
             open_len = 0
             
         if open_len >= win_score:
-            if score > max_score:
-                max_score = score      
+                        
             if max_score > final_score:
                 final_score = max_score
         
@@ -456,8 +452,7 @@ def check_up_open(board, character, win_score):
             open_len = 0
 
         if open_len >= win_score:
-            if score > max_score:
-                max_score = score      
+                      
             if max_score > final_score:
                 final_score = max_score
         
@@ -503,8 +498,7 @@ def check_up_open(board, character, win_score):
             open_len = 0
             
         if open_len >= win_score:
-            if score > max_score:
-                max_score = score      
+                        
             if max_score > final_score:
                 final_score = max_score
 

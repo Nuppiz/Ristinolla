@@ -1,6 +1,3 @@
-# import time.sleep for AI "delay"
-from time import sleep
-
 # import AI functionalities from another file
 import Ai
 
@@ -70,7 +67,6 @@ def turn(board, difficulty, win_score, character):
   if character == "X":
     player_input(board)
   else:
-  	sleep(2) # 2-second delay to make it seem like the AI is "thinking"
   	Ai.ai_input(board, difficulty, win_score)
   
   # Check for victory conditions, return 1 if game ends, 0 if not
@@ -117,7 +113,7 @@ def main():
   game_board = []
   print ("Welcome to Tic-Tack-Toes")
   win_score = Board.init_board(game_board, "-")
-  difficulty = diff_check() * 5 # defines difficulty variable which is sent to AI
+  difficulty = diff_check() * 20 # defines difficulty variable which is sent to AI
   grid_width = Graphics.width // len(game_board[0])
   grid_height = Graphics.height // len(game_board)
   if grid_height > grid_width:
