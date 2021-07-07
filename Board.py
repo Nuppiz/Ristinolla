@@ -358,8 +358,8 @@ def check_down_open(board, character, win_score):
         if open_len >= win_score:
             if score > max_score:
                 max_score = score      
-                if max_score > final_score:
-                    final_score = max_score
+            if max_score > final_score:
+                final_score = max_score
         
         # move diagonally downwards
         x += 1
@@ -404,8 +404,8 @@ def check_down_open(board, character, win_score):
         if open_len >= win_score:
             if score > max_score:
                 max_score = score      
-                if max_score > final_score:
-                    final_score = max_score
+            if max_score > final_score:
+                final_score = max_score
         
         x += 1
         y += 1
@@ -458,8 +458,8 @@ def check_up_open(board, character, win_score):
         if open_len >= win_score:
             if score > max_score:
                 max_score = score      
-                if max_score > final_score:
-                    final_score = max_score
+            if max_score > final_score:
+                final_score = max_score
         
         # move diagonally upwards
         x += 1
@@ -505,8 +505,8 @@ def check_up_open(board, character, win_score):
         if open_len >= win_score:
             if score > max_score:
                 max_score = score      
-                if max_score > final_score:
-                    final_score = max_score
+            if max_score > final_score:
+                final_score = max_score
 
         x += 1
         y -= 1
